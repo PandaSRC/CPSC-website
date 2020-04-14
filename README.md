@@ -7,7 +7,7 @@ The game loads
 
 ## What needs to be done
 I need to find a font that matches the CPSC logo  
-I need to find a way to adjust the size of the game on the fly 
+I need to find a way to adjust the size of the game on the fly  
 Needs to be polished a little bit more
 
 ## CPSC Discord Server
