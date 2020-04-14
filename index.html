@@ -1,0 +1,45 @@
+<!doctype html>
+
+<head>
+	<title>CPSC</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
+</head>
+
+<body>
+
+	<header>
+		<img src="assets/img/cpsc logo.png" alt="CPSC Logo" width="350" height="100">
+		<ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/play/">Play</a></li>
+        </ul>
+	</header>
+	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+        <script type="text/javascript">
+            var swfUrl = "load.swf";
+            var swfID = "scene";
+            var swfWidth = "1472";
+            var swfHeight = "1035";
+            var swfVersion = "6.9.4.2.0";
+            var allowExpressInstall = false;
+            var flashVars = {};
+            var params = {
+                menu: "false",
+                quality: "high",
+                allowscriptaccess: "always",
+                wmode: "opaque",
+                salign: "t"
+            };
+            var attributes = {
+                id: swfID,
+                name: swfID
+            };
+            swfobject.embedSWF(swfUrl, swfID, swfWidth, swfHeight, swfVersion, allowExpressInstall, flashVars, params, attributes);
+        </script>
+        <!-- div shit fix -->
+        <div id="sceneCont">
+            <div id="scene"></div>
+        </div>
+		
+</body>
