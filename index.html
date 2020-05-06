@@ -1,5 +1,3 @@
-<!--This page is meant to be at localhost, and it takes you right into the swf.-->
-
 <!doctype html>
 
 <head>
@@ -12,38 +10,504 @@
 	<header>
 		<img src="assets/img/cpsc logo.png" alt="CPSC Logo" width="350" height="100">
 		<ul>
-		<!--Replace this with size options, I don't know how to do that yet, so this is just a placeholder for now.-->
             <li><a href="/">Home</a></li>
             <li><a href="/play/">Play</a></li>
+			<li>
+    <a id="size-button" class="nav__link--size nav__link--logout--visible nav__link--size--big" role="button">
+        <div class="nav__link__size-img" aria-hidden="true"></div><span>Fit Screen</span></a>
+</li>
         </ul>
 	</header>
 	
-	<!--Copied and pasted from the play page, I want to change this and make it be able to change the size on the fly, like CPR-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-        <script type="text/javascript">
-            var swfUrl = "load.swf";
-            var swfID = "scene";
-            var swfWidth = "1472";
-            var swfHeight = "1035";
-            var swfVersion = "6.9.4.2.0";
-            var allowExpressInstall = false;
-            var flashVars = {};
-            var params = {
-                menu: "false",
-                quality: "high",
-                allowscriptaccess: "always",
-                wmode: "opaque",
-                salign: "t"
+<div id="game" class="content__game" style="width: 980px; height: 624px;">
+    <div id="captcha-modal" class="content__captcha-modal modal" style="transform: scale(1);"></div>
+	<object class="game__base game__base--loaded" id="base" alt="Club Penguin Rewritten" type="application/x-shockwave-flash" data="load.swf" width="992" height="627" style="top: -1.3px; left: -6.8px;">
+	<param name="wmode" value="direct"><param><param></object></div>
+	
+	<script>
+	var snowballOptions = {
+    'cacheVersion': '20200423-17',
+    'flow': 'login',
+    'brb': false,
+    'local': true,
+    'banner': {
+        'active': true,
+        'id': 'discord24042020-2',
+        'text': 'Join our official Discord server for live announcements, support, and more!',
+        'button': {
+            'text': 'Join Now!',
+            'link': 'https://discord.gg/r84GkZb',
+            'external': true
+        }
+    }
+};
+var snowballOptions = snowballOptions || {},
+    Snowball = function(a) {
+        var b = this;
+        window.self !== window.top && (window.top.location.href = window.location.href);
+        this.setupImageSupport();
+        this.playURL = "https://play.cprewritten.net/";
+        this.startConfig = this.playURL + "v2/content/local/en/start/";
+        this.startBase = this.playURL + "v2/content/local/en/start/billboards/";
+        this.createURL = "https://create.cprewritten.net/";
+        this.header = document.getElementById("header");
+        this.footer = document.getElementById("footer");
+        this.content =
+            document.getElementById("content");
+        this.game = document.getElementById("game");
+        this.background = document.getElementById("background");
+        this.startscreen = document.getElementById("startscreen");
+        this.mobileNotice = document.getElementById("mobile");
+        this.flashNotice = document.getElementById("flash");
+        this.flashOverlay = document.getElementById("flash-overlay");
+        this.friendsContainer = document.getElementById("friends");
+        this.captchaSetup = this.flashBypassed = !1;
+        this.initial = "";
+        this.base = void 0;
+        this.loadedMax = 2;
+        this.loaded =
+            0;
+        this.setupPlayPage();
+        this.flashConfigs = {
+            cacheVersion: snowballOptions.cacheVersion,
+            url: this.playURL + "media/v2/client/club_penguin_rewritten_as3.swf",
+            width: 992,
+            height: 627
+        };
+        this.hashFunctions = {
+            login: function() {
+                b.showGame(!1)
+            },
+            redeem: function() {
+                b.showGame(!0)
+            },
+            "": function() {
+                b.showStartscreen()
+            }
+        };
+        this.setupVerify(a)
+    };
+Snowball.prototype.setupImageSupport = function() {
+    var a = new Image;
+    a.src = "data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA";
+    a.onload = function() {
+        0 < a.width && 0 < a.height && document.body.classList.add("webp")
+    };
+    a.onerror = function() {
+        document.body.classList.add("nowebp")
+    }
+};
+Snowball.prototype.configureStates = function(a) {
+    var b = window.location.hash.replace("#/", ""),
+        c = this.hashFunctions[b];
+    if (a) {
+        if ("" == b) return;
+        this.initial = b
+    }
+    c && c()
+};
+Snowball.prototype.setupVerify = function(a) {
+    !this.verifyMobile() && this.verifyFlash() && (this.setupStartscreen(), this.configureStates(a))
+};
+Snowball.prototype.isMobile = function() {
+    var a = /Puffin/.test(navigator.userAgent),
+        b = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? !0 : !1;
+    return a ? (document.body.classList.add("puffin"), !1) : b
+};
+Snowball.prototype.verifyMobile = function() {
+    if (this.isMobile()) {
+        this.mobileNotice.style.display = "block";
+        var a = document.createElement("meta");
+        a.setAttribute("name", "viewport");
+        a.setAttribute("content", "width=device-width, initial-scale=1");
+        document.head.appendChild(a);
+        return !0
+    }
+    return !1
+};
+Snowball.prototype.verifyFlash = function() {
+    var a = this,
+        b = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor),
+        c = /Firefox/.test(navigator.userAgent),
+        d = !navigator.plugins.namedItem("Shockwave Flash") || c;
+    if (this.flashBypassed) return !0;
+    if (d) {
+        if ("complete" !== document.readyState) {
+            this.hideStartscreen();
+            this.flashNotice.style.display = "block";
+            d = document.querySelectorAll("#flash a");
+            [].slice.call(d).forEach(function(a) {
+                a.addEventListener("contextmenu", function(b) {
+                    b.preventDefault();
+                    a.click()
+                })
+            });
+            document.querySelector(".flash__content__chrome");
+            document.getElementById("install-button");
+            var e = document.getElementById("enable-button");
+            document.onreadystatechange = function() {
+                "complete" == document.readyState && h()
             };
-            var attributes = {
-                id: swfID,
-                name: swfID
+            var h = function() {
+                "complete" == document.readyState && (clearTimeout(g), e.href = "http://www.adobe.com/go/getflashplayer", e.style.cursor = "pointer", e.style.opacity = 1, e.title = "", e.addEventListener("click", function(c) {
+                    a.flashOverlay.classList.add("content__flash-overlay--visible");
+                    b || (document.querySelector(".flash__arrows").style.display =
+                        "none");
+                    setTimeout(function() {
+                        setInterval(function() {
+                            document.hasFocus() && (a.flashOverlay.classList.remove("content__flash-overlay--visible"), clearInterval(this))
+                        }, 200)
+                    }, 100)
+                }))
             };
-            swfobject.embedSWF(swfUrl, swfID, swfWidth, swfHeight, swfVersion, allowExpressInstall, flashVars, params, attributes);
-        </script>
-        <!-- div shit fix -->
-        <div id="sceneCont">
-            <div id="scene"></div>
-        </div>
-		
+            if ("complete" !== document.readyState) {
+                e.style.cursor = "default";
+                e.style.opacity = .3;
+                e.title = "Please wait...";
+                var g = setTimeout(h, 1500)
+            }
+            if (c) {
+                document.querySelector(".flash__content--default").style.display = "none";
+                document.querySelector(".flash__content--firefox").style.display = "block";
+                c = document.createElement("object");
+                c.setAttribute("id",
+                    "flash-enable");
+                c.setAttribute("type", "application/x-shockwave-flash");
+                c.setAttribute("importance", "high");
+                c.setAttribute("data", "assets/themes/snowball/media/firefox-trick.swf");
+                c.setAttribute("width", "100%");
+                c.setAttribute("height", "60px");
+                d = document.createElement("param");
+                d.setAttribute("name", "quality");
+                d.setAttribute("value", "autohigh");
+                var f = document.createElement("param");
+                f.setAttribute("name", "allowscriptaccess");
+                f.setAttribute("value", "always");
+                var k = document.createElement("param");
+                k.setAttribute("name", "wmode");
+                k.setAttribute("value",
+                    "direct");
+                c.appendChild(d);
+                c.appendChild(f);
+                c.appendChild(k);
+                document.querySelector(".flash__button__fake").appendChild(c)
+            }
+        }
+        return !1
+    }
+    return !0
+};
+Snowball.prototype.hideFlashNotice = function() {
+    this.flashNotice.classList.add("game__flash--hidden")
+};
+Snowball.prototype.bypassFirefox = function() {
+    document.getElementById("enable-button-fake").style.display = "none";
+    this.flashBypassed = !0;
+    this.hideFlashNotice();
+    this.setupVerify(!1)
+};
+Snowball.prototype.loadGame = function() {
+    document.getElementById("enable-button-fake").style.display = "block";
+    if ("undefined" !== typeof this.base && this.game.contains(this.base)) this.base.setAttribute("data", this.flashConfigs.url + "?cache=" + this.flashConfigs.cacheVersion + "&lang=en&flow=" + snowballOptions.flow);
+    else {
+        this.base = document.createElement("object");
+        this.base.classList.add("game__base");
+        this.base.setAttribute("id", "base");
+        this.base.setAttribute("alt", "Club Penguin Rewritten");
+        this.base.setAttribute("type",
+            "application/x-shockwave-flash");
+        this.base.setAttribute("data", this.flashConfigs.url + "?cache=" + this.flashConfigs.cacheVersion + "&lang=en&flow=" + snowballOptions.flow);
+        this.base.setAttribute("width", this.flashConfigs.width);
+        this.base.setAttribute("height", this.flashConfigs.height);
+        var a = document.createElement("param");
+        a.setAttribute("name", "quality");
+        a.setAttribute("value", "autohigh");
+        var b = document.createElement("param");
+        b.setAttribute("name", "flashvars");
+        b.setAttribute("value", "flow=" + snowballOptions.flow);
+        b = document.createElement("param");
+        a.setAttribute("name", "allowscriptaccess");
+        a.setAttribute("value", "always");
+        var c = document.createElement("param");
+        a.setAttribute("name", "wmode");
+        a.setAttribute("value", "direct");
+        this.base.appendChild(a);
+        this.base.appendChild(b);
+        this.base.appendChild(c);
+        this.base.addEventListener("contextmenu", function(a) {
+            a.preventDefault()
+        });
+        this.game.appendChild(this.base);
+        this.resizeGame()
+    }
+};
+Snowball.prototype.showGame = function(a) {
+    var b = this;
+    snowballOptions.flow = "login";
+    a && (snowballOptions.flow = "redeem");
+    setTimeout(function() {
+        "undefined" !== typeof b.base && b.base.classList.add("game__base--loaded")
+    }, 600);
+    this.hideStartscreen();
+    this.removeCaptcha();
+    this.loadGame()
+};
+Snowball.prototype.unloadGame = function() {
+    "undefined" !== typeof this.base && (this.base.classList.remove("game__base--loaded"), this.base.setAttribute("data", ""));
+    this.removeCaptcha();
+    document.getElementById("logout-button").classList.remove("nav__link--logout--visible")
+};
+Snowball.prototype.setupStartscreen = function() {
+    snowballOptions.local && (this.startConfig = "media/v2/content/local/en/start/", this.startBase = "media/v2/content/local/en/start/billboards/");
+    this.setupStartListeners();
+    this.loadStartBillboard()
+};
+Snowball.prototype.setupStartListeners = function() {
+    var a = this,
+        b = 0;
+    this.background.addEventListener("contextmenu", function(a) {
+        a.preventDefault()
+    });
+    this.startscreen.addEventListener("contextmenu", function(a) {
+        a.preventDefault()
+    });
+    document.getElementById("login-button").addEventListener("click", function() {
+        window.location.hash = "#/login"
+    });
+    document.getElementById("redeem-button").addEventListener("click", function() {
+        window.location.hash = "#/redeem"
+    });
+    document.getElementById("create-button").addEventListener("click",
+        function() {
+            window.location.href = a.createURL
+        });
+    document.getElementById("login-button").addEventListener("keydown", function(a) {
+        "4" == a.key && b++
+    })
+};
+Snowball.prototype.loadStartBillboard = function() {
+    var a = this,
+        b = this.startscreen,
+        c = new XMLHttpRequest,
+        d = this.startConfig + "startscreens.json?cpr=" + this.flashConfigs.cacheVersion;
+    snowballOptions.brb ? this.setupStartBillboard([{
+        url: "brb.png",
+        probability: 100
+    }]) : (c.onreadystatechange = function() {
+        4 == this.readyState && 200 == this.status && a.setupStartBillboard(JSON.parse(this.responseText))
+    }, c.onerror = function() {
+        throw Error("Startscreen failed to load.");
+    }, c.open("get", d, !0), c.send());
+    c = new Image;
+    c.onload = function() {
+        a.loaded++;
+        a.loaded == a.loadedMax && b.classList.add("game__start--loaded")
+    };
+    document.body.classList.contains("webp") ? c.src = "assets/themes/snowball/img/start/start-sprites@2x.min.webp" : c.src = "assets/themes/snowball/img/start/start-sprites@2x.min.png"
+};
+Snowball.prototype.setupStartBillboard = function(a) {
+    var b = this,
+        c = document.querySelector(".start__billboards"),
+        d = document.getElementById("billboard-image"),
+        e = document.getElementById("billboard-video"),
+        h = new Image,
+        g = 0;
+    a.forEach(function(a) {
+        g += a.probability;
+        a.cumulative = g
+    });
+    for (var f = a[0], k = Math.random() * g, l = 0; l < a.length; l++)
+        if (k < a[l].cumulative) {
+            f = a[l];
+            break
+        }
+    k = this.startBase + f.url;
+    l = this.startBase + f.placeholder; - 1 < f.url.split(".").pop().indexOf("mp4") ? (e.src = k, f.placeholder && (e.poster = l), e.addEventListener("loadeddata",
+        function() {
+            b.loaded++;
+            b.loaded == b.loadedMax && startscreen.classList.add("game__start--loaded");
+            d.classList.remove("start__billboard--loaded");
+            e.classList.add("start__billboard--loaded");
+            c.classList.add("start__billboards--loaded")
+        }), e.addEventListener("error", function() {
+        f.placeholder ? b.setupStartBillboard([{
+            url: f.placeholder,
+            probability: 100
+        }]) : b.setupStartBillboard(a)
+    })) : (h.src = k, h.onload = function() {
+        b.loaded++;
+        b.loaded == b.loadedMax && startscreen.classList.add("game__start--loaded");
+        d.src = this.src;
+        d.classList.add("start__billboard--loaded");
+        e.classList.remove("start__billboard--loaded");
+        c.classList.add("start__billboards--loaded")
+    }, h.onerror = function() {
+        b.setupStartBillboard(a)
+    })
+};
+Snowball.prototype.showStartscreen = function() {
+    document.getElementById("billboard-video").play();
+    this.unloadGame();
+    this.startscreen.style.display = "block";
+    this.startscreen.classList.remove("game__start--hidden")
+};
+Snowball.prototype.hideStartscreen = function() {
+    document.getElementById("billboard-video").pause();
+    "login" == this.initial ? this.startscreen.style.display = "none" : this.startscreen.classList.add("game__start--hidden")
+};
+Snowball.prototype.setupPlayPage = function() {
+    var a = this;
+    this.setupBanner();
+    this.setupAgeGate();
+    this.resizeGame();
+    window.addEventListener("resize", function() {
+        a.resizeGame()
+    });
+    document.body.classList.add("loaded");
+    document.getElementById("size-button").addEventListener("click", function() {
+        var b = "small";
+        if ("undefined" !== typeof localStorage) {
+            var c = localStorage.getItem("cpr_screen_size");
+            "small" == c && (b = "big");
+            localStorage.setItem("cpr_screen_size", b)
+        }
+        a.resizeGame()
+    })
+};
+Snowball.prototype.resizeGame = function() {
+    if (!this.isMobile()) {
+        "undefined" === typeof localStorage || localStorage.getItem("cpr_screen_size") || localStorage.setItem("cpr_screen_size", "small");
+        var a = "undefined" !== typeof localStorage && "small" == localStorage.getItem("cpr_screen_size"),
+            b = document.getElementById("size-button");
+        !snowballOptions.banner.active || "undefined" !== typeof localStorage && localStorage.getItem("cpr_hide_banner");
+        var c = Math.min(window.innerWidth / 980, (window.innerHeight - 135) / 624),
+            d = Math.min(window.innerWidth /
+                980, (window.innerHeight - 135) / 624);
+        980 > this.game.offsetWidth ? (this.game.style.width = 980 * d + "px", this.game.style.height = 624 * d + "px") : a ? (d = 1, b.classList.add("nav__link--size--big"), this.game.style.width = "980px", this.game.style.height = "624px", document.querySelector("#size-button span").innerHTML = "Fit Screen") : (b.classList.remove("nav__link--size--big"), this.game.style.width = 980 * d + "px", this.game.style.height = 624 * d + "px", document.querySelector("#size-button span").innerHTML = "Small Screen");
+        1 > d ? (d = 1, this.game.style.width =
+            "980px", this.game.style.height = "624px", b.classList.remove("nav__link--logout--visible")) : b.classList.add("nav__link--logout--visible");
+        980 > this.game.offsetWidth && (d = c, this.game.style.width = 980 * d + "px", this.game.style.height = 624 * d + "px");
+        a = "scale(" + d + ")";
+        this.startscreen.style.transform = a;
+        this.flashNotice.style.transform = a;
+        this.background.style.transform = a;
+        this.friendsContainer.style.transform = a;
+        document.getElementById("captcha-modal").style.transform = a;
+        "undefined" !== typeof this.base && (this.base.width =
+            this.flashConfigs.width * d, this.base.height = this.flashConfigs.height * d, this.base.style.top = "-1.3px", this.base.style.left = "1.5px", 1 < d ? (this.base.style.top = -2.2 * d + "px", this.base.style.left = -5 * d + "px") : this.base.style.left = -6.8 / d + "px");
+        document.body.classList.add("sized")
+    }
+};
+Snowball.prototype.setupBanner = function() {
+    var a = snowballOptions.banner;
+    if ("undefined" === typeof localStorage || localStorage.getItem("cpr_hide_banner") != a.id) {
+        var b = document.getElementById("banner-notification"),
+            c = document.querySelector(".notification__content"),
+            d = document.createElement("span"),
+            e = document.querySelector(".notification__buttons"),
+            h = document.getElementById("banner-close-button"),
+            g = document.createElement("a");
+        if (a) {
+            d.innerHTML = a.text;
+            var f = a.button;
+            f && (g.innerHTML = f.text, g.href = f.link, g.classList.add("notification__button"),
+                f.external && g.classList.add("agegate__link"), e.appendChild(g))
+        }
+        a.active && b.classList.add("banner__notification--opened");
+        c.appendChild(d);
+        h.addEventListener("click", function() {
+            b.classList.remove("banner__notification--opened");
+            b.classList.add("banner__notification--closed");
+            "undefined" !== typeof localStorage && localStorage.setItem("cpr_hide_banner", a.id)
+        })
+    }
+};
+Snowball.prototype.setupAgeGate = function() {
+    var a = this,
+        b = document.querySelectorAll(".agegate__link");
+    [].slice.call(b).forEach(function(b) {
+        var c = b.href,
+            e = b.target;
+        b.addEventListener("click", function(b) {
+            b.preventDefault();
+            a.showAgeGate(c, e)
+        })
+    })
+};
+Snowball.prototype.showAgeGate = function(a, b) {
+    var c = document.getElementById("agegate-modal"),
+        d = document.querySelector(".agegate-modal__link"),
+        e = document.getElementById("agegate-button-pass"),
+        h = document.getElementById("agegate-button-cancel");
+    c.classList.add("modal--visible");
+    d.innerHTML = a.split("/")[2].replace("www.", "");
+    e.href = a;
+    if ("_blank" == b) {
+        var g = function(b) {
+            b.preventDefault();
+            c.classList.remove("modal--visible");
+            window.open(a, "_blank").focus();
+            e.removeEventListener("click", g)
+        };
+        e.addEventListener("click",
+            g)
+    }
+    h.addEventListener("click", function(a) {
+        a.preventDefault();
+        c.classList.remove("modal--visible")
+    })
+};
+Snowball.prototype.setupCaptcha = function() {
+    if ("undefined" === typeof this.base || this.base.canSetupCaptcha()) {
+        var a = document.getElementById("captcha-modal");
+        a.classList.add("modal--visible");
+        a.addEventListener("contextmenu", function(a) {
+            a.preventDefault()
+        });
+        "undefined" !== typeof grecaptcha && grecaptcha.render("render-captcha", {
+            sitekey: "6Lc1p0YUAAAAAKfkOa8x3gMiOH2ms2lBqYKybPmM",
+            callback: this.callFlashVerify
+        })
+    }
+};
+Snowball.prototype.removeCaptcha = function() {
+    document.getElementById("captcha-modal").classList.remove("modal--visible");
+    this.captchaSetup && "undefined" !== typeof grecaptcha && (grecaptcha.reset(), grecaptcha = null)
+};
+Snowball.prototype.callFlashVerify = function(a) {
+    this.captchaSetup = !0;
+    "undefined" !== typeof this.base && this.base.verifyCaptcha(a)
+};
+Snowball.prototype.verifyPlayPage = function() {
+    return !0
+};
+document.addEventListener("DOMContentLoaded", function() {
+    window.snowball = new Snowball(!0);
+    if (window.location.hash == "#/bypass") {
+        window.snowball.bypassFirefox();
+        window.snowball.setupStartscreen();
+        window.snowball.showStartscreen();
+    }
+    window.addEventListener("hashchange", function(a) {
+        a.preventDefault();
+        window.snowball.configureStates(!1)
+    }, !1);
+    setupCaptcha = function() {
+        window.snowball.setupCaptcha()
+    };
+    removeCaptcha = function() {
+        window.snowball.removeCaptcha()
+    };
+    playValid = function() {
+        return !0
+    };
+    bypassFirefox = function() {
+        window.snowball.bypassFirefox()
+    };
+    showLogout = function() {
+        document.getElementById("logout-button").classList.add("nav__link--logout--visible")
+    }
+});
+	<script>
+	
 </body>
