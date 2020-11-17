@@ -1,5 +1,3 @@
-<!--This page is meant to be at localhost, and it takes you right into the swf.-->
-
 <!doctype html>
 
 <head>
@@ -12,38 +10,14 @@
 	<header>
 		<img src="assets/img/cpsc logo.png" alt="CPSC Logo" width="350" height="100">
 		<ul>
-		<!--Replace this with size options, I don't know how to do that yet, so this is just a placeholder for now.-->
-            <li><a href="/">Home</a></li>
-            <li><a href="/play/">Play</a></li>
-        </ul>
+			<!--Replace this with size options, I don't know how to do that yet, so this is just a placeholder for now.-->
+            		<li><a href="/">Home</a></li>
+            		<li><a href="/play/">Play</a></li>
+        	</ul>
 	</header>
 	
-	<!--Copied and pasted from the play page, I want to change this and make it be able to change the size on the fly, like CPR-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
-        <script type="text/javascript">
-            var swfUrl = "load.swf";
-            var swfID = "scene";
-            var swfWidth = "1472";
-            var swfHeight = "1035";
-            var swfVersion = "6.9.4.2.0";
-            var allowExpressInstall = false;
-            var flashVars = {};
-            var params = {
-                menu: "false",
-                quality: "high",
-                allowscriptaccess: "always",
-                wmode: "opaque",
-                salign: "t"
-            };
-            var attributes = {
-                id: swfID,
-                name: swfID
-            };
-            swfobject.embedSWF(swfUrl, swfID, swfWidth, swfHeight, swfVersion, allowExpressInstall, flashVars, params, attributes);
-        </script>
-        <!-- div shit fix -->
-        <div id="sceneCont">
-            <div id="scene"></div>
-        </div>
-		
+	<param name="BGCOLOR" value="#EEEEEE">
+	<object type="application/x-shockwave-flash" id="game" name="game" data="load.swf">
+	<param name="allowScriptAccess" value="always">
+	
 </body>
