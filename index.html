@@ -9,15 +9,33 @@
 
 	<header>
 		<img src="assets/img/cpsc logo.png" alt="CPSC Logo" width="350" height="100">
+		<script>
+		function full() {
+		   screen = Math.min(window.innerWidth / 1140, (window.innerHeight - 150) / 720);
+		   this.game.style.width = 1140 * screen + "px",
+		   this.game.style.height = 720 * screen + "px";
+		}
+		
+		function medium() {
+		   this.game.style.width = "1140px",
+		   this.game.style.height = "720px";
+		}
+		
+		function oob() {
+		   screen = Math.min(window.innerHeight / 3);
+		   this.game.style.width = "100%",
+		   this.game.style.height = screen + "px";
+		}
+		</script>
 		<ul>
-			<!--Replace this with size options, I don't know how to do that yet, so this is just a placeholder for now.-->
-            		<li><a href="/">Home</a></li>
-            		<li><a href="/play/">Play</a></li>
-        	</ul>
+            	<li><a onclick="full()">Full</a></li>
+            	<li><a onclick="medium()">Medium</a></li>
+				<li><a onclick="oob()">OOB</a>
+        </ul>
 	</header>
 	
 	<param name="BGCOLOR" value="#EEEEEE">
-	<object type="application/x-shockwave-flash" id="game" name="game" data="load.swf">
+	<object type="application/x-shockwave-flash" id="game" name="game" data="http://localhost/play/load.swf">
 	<param name="allowScriptAccess" value="always">
 	
 </body>
