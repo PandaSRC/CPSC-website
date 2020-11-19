@@ -4,12 +4,13 @@ body {
 	color: white;
 }
 
-a {
-	color: white;
-	text-decoration: none;
+button {
+    color: white;
+	background-color: black;
+    border: none;
 }
 
-a:hover {
+button:hover {
     color: rgb(19, 161, 14);
 }
 
@@ -24,7 +25,7 @@ img {
 
 li {
 	float: right;
-	padding: 20px 50px;
+	padding: 20px 40px;
 	font-size: 16px;
 	text-align: center;
 	list-style-type: none;
