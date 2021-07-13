@@ -2,7 +2,7 @@
 Minimalist play page for CPSC
 
 ## Features
-Minimalist, dark, lightweight design
+Minimalist, dark, lightweight design  
 Options to change the size (stolen from CPR)
 
 ## CPSC Discord Server
