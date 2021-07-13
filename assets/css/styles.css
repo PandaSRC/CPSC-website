@@ -1,3 +1,8 @@
+@font-face {
+	font-family: Ubuntu;
+	src: url(Ubuntu-Regular.ttf);
+}
+
 body {
 	text-align: center;
 	background-color: black;
@@ -37,8 +42,8 @@ li {
 }
 
 button {
-	font-size: 16px;
 	font-family: Ubuntu;
+	font-size: 16px;
 }
 
 a {
