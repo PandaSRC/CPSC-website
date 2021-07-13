@@ -5,13 +5,17 @@ body {
 }
 
 button {
-    color: white;
+	color: white;
 	background-color: black;
-    border: none;
+	border: none;
 }
 
 button:hover {
-    color: rgb(19, 161, 14);
+	color: rgb(229, 5, 6);
+}
+
+a:hover {
+	color: rgb(17, 142, 38);
 }
 
 header {
@@ -25,11 +29,25 @@ img {
 
 li {
 	float: right;
-	padding: 20px 40px;
-	font-size: 16px;
+	padding: 18px 40px;
+	font-size: 0px;
 	text-align: center;
 	list-style-type: none;
 	margin: 0;
+}
+
+button {
+	font-size: 16px;
+	font-family: Ubuntu;
+}
+
+a {
+	font-family: Ubuntu;
+	font-size: 16px;
+	text-decoration: none;
+	padding: 35px 40px;
+	float: left;
+	color: white;
 }
 
 object {
