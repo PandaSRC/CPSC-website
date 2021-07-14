@@ -1,5 +1,5 @@
 # [CPSC](https://github.com/Thestickman391/CPSC) website remake by PASRC
-Minimalist play page for CPSC
+The minimalist play page for CPSC
 
 ## Features
 Minimalist, dark, lightweight design  
